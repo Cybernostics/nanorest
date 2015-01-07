@@ -1,12 +1,13 @@
-package example.client;
+package com.cybernostics.nanorest.example.client;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import example.api.v1.Greeting;
-import example.api.v1.GreetingsService;
+import com.cybernostics.nanorest.example.api.v1.Greeting;
+import com.cybernostics.nanorest.example.api.v1.GreetingsService;
+
 
 @ComponentScan
 @EnableAutoConfiguration

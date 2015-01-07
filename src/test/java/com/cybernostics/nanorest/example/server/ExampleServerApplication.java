@@ -1,4 +1,4 @@
-package example.server;
+package com.cybernostics.nanorest.example.server;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.SpringApplication;

@@ -7,11 +7,11 @@ import java.io.IOException;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import example.api.v1.Greeting;
 
 public class SerialisationTest {
 

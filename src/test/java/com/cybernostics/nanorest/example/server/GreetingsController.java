@@ -1,4 +1,4 @@
-package example.server;
+package com.cybernostics.nanorest.example.server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,12 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cybernostics.nanorest.example.api.v1.Greeting;
+import com.cybernostics.nanorest.example.api.v1.GreetingsService;
+import com.cybernostics.nanorest.example.server.finders.ByFieldFinder;
+import com.cybernostics.nanorest.example.server.finders.ByMapFinder;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-
-import example.api.v1.Greeting;
-import example.api.v1.GreetingsService;
-import example.server.finders.ByFieldFinder;
-import example.server.finders.ByMapFinder;
 
 @Component
 public class GreetingsController implements GreetingsService {

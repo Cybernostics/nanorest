@@ -28,11 +28,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.cybernostics.nanorest.example.api.v1.Greeting;
+import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
 import com.cybernostics.nanorest.spring.NanaRestAPI;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import example.api.v1.Greeting;
-import example.server.ServerAppConfiguration;
 import static apitest.matchers.MatchesGreeting.matches;
 
 @RunWith(SpringJUnit4ClassRunner.class)

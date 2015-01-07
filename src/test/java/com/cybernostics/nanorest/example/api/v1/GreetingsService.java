@@ -1,4 +1,4 @@
-package example.api.v1;
+package com.cybernostics.nanorest.example.api.v1;
 
 import java.util.List;
 import java.util.Map;

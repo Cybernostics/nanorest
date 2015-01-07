@@ -3,7 +3,8 @@ package apitest.matchers;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
-import example.api.v1.Greeting;
+import com.cybernostics.nanorest.example.api.v1.Greeting;
+
 
 public final class MatchesGreeting extends BaseMatcher<Greeting> {
 	private Greeting toCompare;

@@ -1,4 +1,4 @@
-package example.server;
+package com.cybernostics.nanorest.example.server;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

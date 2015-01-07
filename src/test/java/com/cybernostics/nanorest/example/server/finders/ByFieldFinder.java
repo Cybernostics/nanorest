@@ -1,12 +1,9 @@
-package example.server.finders;
+package com.cybernostics.nanorest.example.server.finders;
 
 import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.base.Predicate;
 
-import example.api.v1.Greeting;
 
 public class ByFieldFinder<T> implements Predicate<T> {
 

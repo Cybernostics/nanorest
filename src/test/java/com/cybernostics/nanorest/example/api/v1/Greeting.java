@@ -1,4 +1,4 @@
-package example.api.v1;
+package com.cybernostics.nanorest.example.api.v1;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
