@@ -28,7 +28,7 @@ public class BasicEntityServiceParser  implements InterfaceParser{
 
 	@Override
 	public boolean applicableTo(Class<?> clazz) {
-		return clazz.getAnnotation(BasicEntityService.class)!=null;
+		return clazz.getAnnotation(EntityRestService.class)!=null;
 
 	}
 

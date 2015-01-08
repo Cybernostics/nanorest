@@ -31,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
-import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
+import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static apitest.matchers.MatchesGreeting.matches;
@@ -57,7 +57,7 @@ public class NanoRestControllerTest {
 	 }
 	@Test
 	public void testAnnotation() {
-		assertThat(Annotated.class.getAnnotation(BasicEntityService.class), is(not(nullValue())));
+		assertThat(Annotated.class.getAnnotation(EntityRestService.class), is(not(nullValue())));
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class NanoRestControllerTest {
 	}
 
 
-	@BasicEntityService
+	@EntityRestService
 	public static class Annotated
 	{
 

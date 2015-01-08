@@ -22,7 +22,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
+import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 
 public class PostPutBodyArgumentResolver implements  HandlerMethodArgumentResolver {
 
@@ -66,7 +66,7 @@ public class PostPutBodyArgumentResolver implements  HandlerMethodArgumentResolv
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
-		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), BasicEntityService.class) == null)
+		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), EntityRestService.class) == null)
 		{
 			return false;
 		}

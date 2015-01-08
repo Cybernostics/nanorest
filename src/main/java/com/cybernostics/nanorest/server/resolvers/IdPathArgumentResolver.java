@@ -5,7 +5,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ValueConstants;
 import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodArgumentResolver;
 
-import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
+import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 
 
 public class IdPathArgumentResolver extends
@@ -13,7 +13,7 @@ public class IdPathArgumentResolver extends
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), BasicEntityService.class) == null)
+		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), EntityRestService.class) == null)
 		{
 			return false;
 		}

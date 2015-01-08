@@ -3,10 +3,10 @@ package com.cybernostics.nanorest.example.api.v1;
 import java.util.List;
 import java.util.Map;
 
-import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
+import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 
 
-@BasicEntityService("greeter/api/v1") //
+@EntityRestService("greeter/api/v1") //
 public interface GreetingsService {
 
 	Greeting putGreeting(Greeting toPut);

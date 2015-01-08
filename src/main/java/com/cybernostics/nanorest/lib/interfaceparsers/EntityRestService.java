@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Target(value = { ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @ResponseBody
-public @interface BasicEntityService {
+public @interface EntityRestService {
 
 	String value() default "";
 
