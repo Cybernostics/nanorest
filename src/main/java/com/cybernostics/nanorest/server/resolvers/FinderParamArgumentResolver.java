@@ -7,7 +7,7 @@ import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
 
-import com.cybernostics.nanorest.spring.NanaRestAPI;
+import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
 
 public class FinderParamArgumentResolver extends RequestParamMethodArgumentResolver{
 
@@ -19,7 +19,7 @@ public class FinderParamArgumentResolver extends RequestParamMethodArgumentResol
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), NanaRestAPI.class) == null)
+		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), BasicEntityService.class) == null)
 		{
 			return false;
 		}

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
 import com.google.common.base.Predicate;
 
 public class NanaRestAPIHandler implements ApplicationContextAware,
@@ -31,11 +32,11 @@ public class NanaRestAPIHandler implements ApplicationContextAware,
 
 
 		final Map<String, Object> nanaClients = ((ListableBeanFactory) applicationContext)
-				.getBeansWithAnnotation((Class<? extends Annotation>) NanaRestAPI.class);
+				.getBeansWithAnnotation((Class<? extends Annotation>) BasicEntityService.class);
 		for (final Object myClient : nanaClients.values()) {
 			final Class<? extends Object>clientClass = myClient.getClass();
-			final NanaRestAPI annotation = clientClass
-					.getAnnotation(NanaRestAPI.class);
+			final BasicEntityService annotation = clientClass
+					.getAnnotation(BasicEntityService.class);
 			System.out.println(String.format("Found class %s\n",clientClass.getName() ));
 		}
 
@@ -52,7 +53,7 @@ public class NanaRestAPIHandler implements ApplicationContextAware,
 				               .setUrls(ClasspathHelper.forClassLoader())
 				               .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner().filterResultsBy(myClassAnnotationsFilter)));
 
-		Set<Class<?>> theFoos = reflections.getTypesAnnotatedWith(NanaRestAPI.class);
+		Set<Class<?>> theFoos = reflections.getTypesAnnotatedWith(BasicEntityService.class);
 		System.out.println(theFoos.size());
 		for(Class<?> eachFoo : theFoos)
 		{

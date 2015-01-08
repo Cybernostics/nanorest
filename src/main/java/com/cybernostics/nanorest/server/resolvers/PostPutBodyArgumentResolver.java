@@ -22,7 +22,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.cybernostics.nanorest.spring.NanaRestAPI;
+import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
 
 public class PostPutBodyArgumentResolver implements  HandlerMethodArgumentResolver {
 
@@ -58,7 +58,7 @@ public class PostPutBodyArgumentResolver implements  HandlerMethodArgumentResolv
 	}
 
     protected void raiseMissingParameterException(String paramName,
-                                                  Class paramType) throws Exception {
+                                                  Class<?> paramType) throws Exception {
         throw new IllegalStateException("Missing parameter '" + paramName
                                         + "' of type [" + paramType.getName() + "]");
     }
@@ -66,7 +66,7 @@ public class PostPutBodyArgumentResolver implements  HandlerMethodArgumentResolv
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 
-		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), NanaRestAPI.class) == null)
+		if (AnnotationUtils.findAnnotation(parameter.getDeclaringClass(), BasicEntityService.class) == null)
 		{
 			return false;
 		}

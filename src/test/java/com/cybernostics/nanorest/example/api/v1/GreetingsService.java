@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
-import com.cybernostics.nanorest.spring.NanaRestAPI;
 
 
-@NanaRestAPI("greeter/api/v1")
-@BasicEntityService("greeter/api/v1")
+@BasicEntityService("greeter/api/v1") //
 public interface GreetingsService {
 
 	Greeting putGreeting(Greeting toPut);

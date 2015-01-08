@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.cybernostics.nanorest.Inflector;
-import com.cybernostics.nanorest.spring.NanaRestAPI;
+import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
 import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
@@ -51,7 +51,7 @@ public class RestControllerHandlerMapping  extends RequestMappingHandlerMapping{
 
 		Class<?>[] interfaces = beanType.getInterfaces();
 		for (Class<?> eachInterface : interfaces) {
-			NanaRestAPI annotation = eachInterface.getAnnotation(NanaRestAPI.class);
+			BasicEntityService annotation = eachInterface.getAnnotation(BasicEntityService.class);
 			if (annotation!=null) {
 				String baseNameString = baseNameFor(beanType);
 				if (baseNameString != null) {

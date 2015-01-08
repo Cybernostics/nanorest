@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
-import com.cybernostics.nanorest.spring.NanaRestAPI;
+import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static apitest.matchers.MatchesGreeting.matches;
@@ -48,19 +49,21 @@ public class NanoRestControllerTest {
 
 	 private MockMvc mockMvc;
 
+	 private final String rootURL = "/greeter/api/v1";
+
 	 @Before
 	 public void setup() {
 	  this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	 }
 	@Test
 	public void testAnnotation() {
-		assertThat(Annotated.class.getAnnotation(NanaRestAPI.class), is(not(nullValue())));
+		assertThat(Annotated.class.getAnnotation(BasicEntityService.class), is(not(nullValue())));
 	}
 
 	@Test
 	public void getWithNoArgsReturnsEmptyListWithNoData() {
 		try {
-			String contentAsString = mockMvc.perform(get("/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+			String contentAsString = mockMvc.perform(get(rootURL+"/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 			assertThat(contentAsString, is("[]"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,13 +76,13 @@ public class NanoRestControllerTest {
 			Greeting toPut = new Greeting("Hello There", "A description");
 			String jsonRequest = objectMapper.writeValueAsString(toPut);
 
-			String contentAfterPut = mockMvc.perform(put("/greetings/")
+			String contentAfterPut = mockMvc.perform(put(rootURL+"/greetings/")
 					.content(jsonRequest)
 					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 			Greeting afterPut = objectMapper.readValue(contentAfterPut, Greeting.class);
 			assertThat(afterPut, matches(toPut));
 
-			String contentAfterGet = mockMvc.perform(get("/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+			String contentAfterGet = mockMvc.perform(get(rootURL+"/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 			List<?> afterGetList = objectMapper.readValue(contentAfterGet, ArrayList.class);
 			assertThat(afterGetList.size(), is(1));
 			Greeting greetingReturned = (Greeting) afterGetList.get(0);
@@ -90,7 +93,7 @@ public class NanoRestControllerTest {
 	}
 
 
-	@NanaRestAPI
+	@BasicEntityService
 	public static class Annotated
 	{
 
