@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
 import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static apitest.matchers.MatchesGreeting.matches;
@@ -72,24 +75,33 @@ public class NanoRestControllerTest {
 
 	@Test
 	public void putJSONFollowedByGetReturnsTheNewEntityWithANonzeroId() {
-		try {
 			Greeting toPut = new Greeting("Hello There", "A description");
-			String jsonRequest = objectMapper.writeValueAsString(toPut);
+			String jsonRequest;
+			try {
+				jsonRequest = objectMapper.writeValueAsString(toPut);
+				String contentAfterPut = mockMvc.perform(put(rootURL+"/greetings/")
+						.content(jsonRequest)
+						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+				Greeting afterPut = objectMapper.readValue(contentAfterPut, Greeting.class);
+				assertThat(afterPut, matches(toPut));
 
-			String contentAfterPut = mockMvc.perform(put(rootURL+"/greetings/")
-					.content(jsonRequest)
-					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-			Greeting afterPut = objectMapper.readValue(contentAfterPut, Greeting.class);
-			assertThat(afterPut, matches(toPut));
+				TypeReference<List<Greeting>> listTypeReference = new TypeReference<List<Greeting>>() {
+				};
+				String contentAfterGet = mockMvc.perform(get(rootURL+"/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+				List<?> afterGetList = objectMapper.readValue(contentAfterGet, listTypeReference);
+				assertThat(afterGetList.size(), is(1));
+				Greeting greetingReturned = (Greeting) afterGetList.get(0);
+				assertThat(greetingReturned.getId(), is(not(0L)));
 
-			String contentAfterGet = mockMvc.perform(get(rootURL+"/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-			List<?> afterGetList = objectMapper.readValue(contentAfterGet, ArrayList.class);
-			assertThat(afterGetList.size(), is(1));
-			Greeting greetingReturned = (Greeting) afterGetList.get(0);
-			assertThat(greetingReturned.getId(), is(not(0L)));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+
+
+
+
 	}
 
 

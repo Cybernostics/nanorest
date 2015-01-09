@@ -4,10 +4,15 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.URL;
 
+import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
+
 public class RestClientInvocationHandler implements InvocationHandler{
 
-	public RestClientInvocationHandler(URL[] sources) {
-		// TODO Auto-generated constructor stub
+	private RemoteServiceEndpoint remoteServiceEndpoint;
+
+	public RestClientInvocationHandler(RemoteServiceEndpoint remoteServiceEndpoint) {
+		this.remoteServiceEndpoint = remoteServiceEndpoint;
+
 	}
 
 	@Override

@@ -32,8 +32,8 @@ public class InterfaceParserUtil {
 	{
 		String name = m.getName();
 		Matcher matcher = requestMethodPattern.matcher(name);
-		if (matcher.matches()) {
-			return RequestMethod.valueOf(matcher.group(1));
+		if (matcher.find()) {
+			return RequestMethod.valueOf(matcher.group(1).toUpperCase());
 		}
 		return RequestMethod.GET;
 	}

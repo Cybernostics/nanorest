@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.cybernostics.nanorest.client.NanaRestClientConfig;
+import com.cybernostics.nanorest.client.NanoRestClientConfig;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
@@ -14,7 +14,7 @@ import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 
 @Configuration
 @ComponentScan( basePackageClasses= {GreetingsService.class})
-@Import(NanaRestClientConfig.class)
+@Import(NanoRestClientConfig.class)
 public class ClientAppConfiguration {
 
 	@Bean

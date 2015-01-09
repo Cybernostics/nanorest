@@ -1,8 +1,8 @@
 package com.cybernostics.nanorest.lib.interfaceparsers;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +24,15 @@ public class RequestSpecification{
 		return httpRequestParams;
 	}
 
-	public String[] getJavaMethodArguments() {
+	public List<String> getJavaMethodArguments() {
 		return javaMethodArguments;
 	}
 
 	private StringBuilder urlBuilder = new StringBuilder();
 	private RequestMethod httpRequestMethod;
 	private List<String> httpRequestParams = new ArrayList<String>();
-	private String[] javaMethodArguments;
+	private List<String> javaMethodArguments = new ArrayList<String>();
+	private int bodyIndex;
 
 	public RequestMethod getHttpRequestMethod() {
 		return httpRequestMethod;
@@ -63,7 +64,9 @@ public class RequestSpecification{
 	public RequestSpecification forJavaMethod(Method method)
 	{
 		this.javaServiceMethod=method;
-		paranamer.get().lookupParameterNames(javaServiceMethod);
+		if (javaServiceMethod.getParameterTypes().length>0) {
+			javaMethodArguments.addAll(Arrays.asList(paranamer.get().lookupParameterNames(javaServiceMethod,false)));
+		}
 		return this;
 	}
 
@@ -79,7 +82,7 @@ public class RequestSpecification{
 	{
 		Map<String, String> map = new HashMap<String, String>();
 		for (int index = 0; index < args.length; index++) {
-			String paramName = javaMethodArguments[index];
+			String paramName = javaMethodArguments.get(index);
 			if(this.httpRequestParams.contains(paramName))
 			{
 				map.put(paramName,args[index].toString());
@@ -92,11 +95,23 @@ public class RequestSpecification{
 	{
 		String request = urlBuilder.toString();
 		for (int index = 0; index < args.length; index++) {
-			String currentTag = "{"+javaMethodArguments[index]+"}";
+			String currentTag = "{"+javaMethodArguments.get(index)+"}";
 			if(request.contains(currentTag)) {
 				request=request.replace(currentTag, args[index].toString());
 			}
 		}
 		return request;
 	}
+
+	public int getBodyIndex() {
+		return bodyIndex;
+	}
+
+	public RequestSpecification withBodyIndex(int index) {
+		bodyIndex = index;
+		return this;
+
+	}
+
+
 }
