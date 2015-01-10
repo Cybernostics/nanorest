@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.thoughtworks.paranamer.AdaptiveParanamer;
@@ -28,14 +29,14 @@ public class InterfaceParserUtil {
 		}
 	};
 
-	public static RequestMethod fromMethod(Method m)
+	public static HttpMethod fromMethod(Method m)
 	{
 		String name = m.getName();
 		Matcher matcher = requestMethodPattern.matcher(name);
 		if (matcher.find()) {
-			return RequestMethod.valueOf(matcher.group(1).toUpperCase());
+			return HttpMethod.valueOf(matcher.group(1).toUpperCase());
 		}
-		return RequestMethod.GET;
+		return HttpMethod.GET;
 	}
 	public static Class<?> getEntity(Class<?> serviceClass) {
 		Method[] declaredMethods = serviceClass.getDeclaredMethods();

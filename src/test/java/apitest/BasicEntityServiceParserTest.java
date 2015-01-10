@@ -13,6 +13,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
@@ -48,8 +49,8 @@ public class BasicEntityServiceParserTest {
 		assertThat(methodMap,hasKey(getByIdMethod));
 		RequestSpecification requestSpecification = methodMap.get(getByIdMethod);
 		assertThat(requestSpecification, is(notNullValue()));
-		assertThat(requestSpecification.getHttpRequestMethod(), is(RequestMethod.GET));
-		assertThat(requestSpecification.getQueryURL(), is("/Greeting/{id}"));
+		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.GET));
+		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(), is("/Greeting/21"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(-1));
 	}
@@ -60,8 +61,8 @@ public class BasicEntityServiceParserTest {
 		assertThat(methodMap,hasKey(putMethod));
 		RequestSpecification requestSpecification = methodMap.get(putMethod);
 		assertThat(requestSpecification, is(notNullValue()));
-		assertThat(requestSpecification.getHttpRequestMethod(), is(RequestMethod.PUT));
-		assertThat(requestSpecification.getQueryURL(), is("/Greeting"));
+		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.PUT));
+		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(), is("/Greeting"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
@@ -72,8 +73,8 @@ public class BasicEntityServiceParserTest {
 		assertThat(methodMap,hasKey(postMethod));
 		RequestSpecification requestSpecification = methodMap.get(postMethod);
 		assertThat(requestSpecification, is(notNullValue()));
-		assertThat(requestSpecification.getHttpRequestMethod(), is(RequestMethod.POST));
-		assertThat(requestSpecification.getQueryURL(), is("/Greeting"));
+		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.POST));
+		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(), is("/Greeting"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
