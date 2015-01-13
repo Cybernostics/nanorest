@@ -14,7 +14,9 @@ import java.util.Map;
  *
  * Each InterfaceParser knows about some conventional layout for the methods
  * so it can figure out the stuff which would normally require annotations, like request method.
- * To Add a new Parser simply register a Bean implementing this interface
+ * To Add a new Parser simply register a Bean implementing this interface.
+ * The parser knows what types of interface it can parse( applicableTo) and
+ * returns a RequestSpecification for each method in the interface that it cares about.
  * @author jason
  *
  */
