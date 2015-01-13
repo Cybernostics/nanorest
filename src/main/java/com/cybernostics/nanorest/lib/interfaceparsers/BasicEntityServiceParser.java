@@ -16,6 +16,7 @@ public class BasicEntityServiceParser  implements InterfaceParser{
 	@Override
 	public Map<Method, RequestSpecification> parse(Class<?> serviceClass) {
 		Class<?> entity = InterfaceParserUtil.getEntity(serviceClass);
+		EntityRestService entityRestService =  serviceClass.getAnnotation(EntityRestService.class);
 		String pluralNameString = Inflector.toPlural(entity.getSimpleName());
 		Method[] declaredMethods = serviceClass.getDeclaredMethods();
 		Map<Method, RequestSpecification> map = new HashMap<>();
@@ -24,7 +25,7 @@ public class BasicEntityServiceParser  implements InterfaceParser{
 			RequestSpecification methodRequestTemplate = new RequestSpecification()
 				.withHttpRequestMethod(InterfaceParserUtil.fromMethod(method))
 				.withBodyIndex(-1)
-				.appendURL("/"+pluralNameString + InterfaceParserUtil.getPathComponents(method))
+				.appendURL(entityRestService.value()+"/"+pluralNameString + InterfaceParserUtil.getPathComponents(method))
 				.forJavaMethod(method);
 			if(name.startsWith("put")||name.startsWith("post"))
 			{

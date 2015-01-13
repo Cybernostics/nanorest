@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityServiceParser;
+import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 
@@ -40,11 +41,16 @@ public class BasicEntityServiceParserTest {
 
 	private Map<Method, RequestSpecification> methodMap;
 
+	private String expectedRootPath;
+
 	@Before
 	public void init()
 	{
 		parser = new BasicEntityServiceParser();
 		methodMap = parser.parse(GreetingsService.class);
+		EntityRestService entityRestService = GreetingsService.class.getAnnotation(EntityRestService.class);
+		assertThat(entityRestService, is(notNullValue()));
+		expectedRootPath=entityRestService.value();
 		assertThat(methodMap, is(notNullValue()));
 		assertThat(methodMap.size(), is(not(0)));
 		assertThat(methodMap.size(), is(GreetingsService.class.getDeclaredMethods().length));
@@ -57,7 +63,8 @@ public class BasicEntityServiceParserTest {
 		RequestSpecification requestSpecification = methodMap.get(getByIdMethod);
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.GET));
-		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(), is("/Greeting/21"));
+		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(),
+				is(expectedRootPath+"/Greeting/21"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(-1));
 	}
@@ -69,7 +76,8 @@ public class BasicEntityServiceParserTest {
 		RequestSpecification requestSpecification = methodMap.get(putMethod);
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.PUT));
-		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(), is("/Greeting"));
+		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(),
+				is(expectedRootPath+"/Greeting"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
@@ -81,7 +89,8 @@ public class BasicEntityServiceParserTest {
 		RequestSpecification requestSpecification = methodMap.get(postMethod);
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.POST));
-		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(), is("/Greeting"));
+		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(),
+				is(expectedRootPath+"/Greeting"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
@@ -93,7 +102,8 @@ public class BasicEntityServiceParserTest {
 		RequestSpecification requestSpecification = methodMap.get(deleteMethod);
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.DELETE));
-		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(), is("/Greeting/21"));
+		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(),
+				is(expectedRootPath+"/Greeting/21"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(-1));
 	}
@@ -120,7 +130,7 @@ public class BasicEntityServiceParserTest {
 
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.GET));
-		//assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(), is("/Greeting"));
+		assertThat(requestSpecification.getQueryTemplate().toString(), is(expectedRootPath+"/Greeting"));
 		if(byArg.length()>0)
 		{
 			assertThat(requestSpecification.getHttpRequestParams(), containsInAnyOrder(byArg));
@@ -130,10 +140,6 @@ public class BasicEntityServiceParserTest {
 		return requestSpecification;
 	}
 
-
-//	List<Greeting> findGreetingsByContent(@Named("content")String content);
-//	List<Greeting> findGreetingsByDescription(@Named("description")String description);
-//	List<Greeting> findGreetings(@Named("criteria")Map<String, String> criteria);
 
 	private Method methodWith(String string, int i) {
 		Method[] declaredMethods = GreetingsService.class.getDeclaredMethods();
