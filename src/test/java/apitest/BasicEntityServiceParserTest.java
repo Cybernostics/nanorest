@@ -6,16 +6,23 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
+import javax.inject.Named;
+
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.matchers.Contains;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityServiceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
@@ -78,6 +85,55 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
+
+	@Test
+	public void shouldMapDeleteMethod() throws Exception {
+		Method deleteMethod = methodWith("deleteGreeting",1);
+		assertThat(methodMap,hasKey(deleteMethod));
+		RequestSpecification requestSpecification = methodMap.get(deleteMethod);
+		assertThat(requestSpecification, is(notNullValue()));
+		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.DELETE));
+		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(), is("/Greeting/21"));
+		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
+		assertThat(requestSpecification.getBodyIndex(), is(-1));
+	}
+
+	@Test
+	public void shouldMapFinderMethods() throws Exception {
+
+		checkFinder( "content");
+		checkFinder( "description");
+		checkFinder( "");
+
+	}
+
+	private RequestSpecification checkFinder( String byArg)
+	{
+		String suffix = byArg.length()>0?
+				"By"+byArg.substring(0,1).toUpperCase()+byArg.substring(1)
+				:
+				"";
+		Method findMethod = methodWith("findGreetings" + suffix,1);
+		assertThat(findMethod, is(notNullValue()));
+		assertThat(methodMap,hasKey(findMethod));
+		RequestSpecification requestSpecification = methodMap.get(findMethod);
+
+		assertThat(requestSpecification, is(notNullValue()));
+		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.GET));
+		//assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(), is("/Greeting"));
+		if(byArg.length()>0)
+		{
+			assertThat(requestSpecification.getHttpRequestParams(), containsInAnyOrder(byArg));
+		}
+		assertThat(requestSpecification.getBodyIndex(), is(-1));
+
+		return requestSpecification;
+	}
+
+
+//	List<Greeting> findGreetingsByContent(@Named("content")String content);
+//	List<Greeting> findGreetingsByDescription(@Named("description")String description);
+//	List<Greeting> findGreetings(@Named("criteria")Map<String, String> criteria);
 
 	private Method methodWith(String string, int i) {
 		Method[] declaredMethods = GreetingsService.class.getDeclaredMethods();

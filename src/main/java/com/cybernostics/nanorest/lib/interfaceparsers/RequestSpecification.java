@@ -4,14 +4,14 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriTemplate;
 
-import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.Paranamer;
 
 import dagger.Lazy;
@@ -23,7 +23,15 @@ public class RequestSpecification {
 		return javaServiceMethod;
 	}
 
-	public List<String> getHttpRequestParams() {
+	public Set<String> getHttpRequestParams() {
+		List<String> variableNames = getQueryTemplate().getVariableNames();
+		for (String eachArgument : javaMethodArguments) {
+			if (!variableNames.contains(eachArgument)) {
+				if(bodyIndex==-1) {
+					httpRequestParams.add(eachArgument);
+				}
+			}
+		}
 		return httpRequestParams;
 	}
 
@@ -33,25 +41,18 @@ public class RequestSpecification {
 
 	private StringBuilder urlBuilder = new StringBuilder();
 	private HttpMethod httpRequestMethod;
-	private List<String> httpRequestParams = new ArrayList<String>();
+	private Set<String> httpRequestParams = new HashSet<>();
 	private List<String> javaMethodArguments = new ArrayList<String>();
 	private int bodyIndex;
 	private Class<?> entityClass;
 	private Class<?> serviceClass;
-	private Map<String, Integer> argNames;
+	private Map<String, Integer> argNames = new HashMap<>();
 
 	public HttpMethod getHttpRequestMethod() {
 		return httpRequestMethod;
 	}
 
-	static Lazy<Paranamer> paranamer = new Lazy<Paranamer>() {
-
-		@Override
-		public Paranamer get() {
-			return new AdaptiveParanamer();
-		}
-	};
-
+	static Lazy<Paranamer> paranamer = InterfaceParserUtil.paranamer;
 	public RequestSpecification() {
 
 	}
@@ -74,7 +75,8 @@ public class RequestSpecification {
 					.lookupParameterNames(javaServiceMethod, false);
 			javaMethodArguments.addAll(Arrays.asList(argNameList));
 			for (int index = 0; index < argNameList.length; index++) {
-				argNames.put(argNameList[index], index);
+				String temp = argNameList[index];
+				argNames.put(temp, index);
 			}
 		}
 		serviceClass = method.getDeclaringClass();
