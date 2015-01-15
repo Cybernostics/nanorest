@@ -64,7 +64,7 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.GET));
 		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(),
-				is(expectedRootPath+"/Greeting/21"));
+				is(expectedRootPath+"/greetings/21"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(-1));
 	}
@@ -77,7 +77,7 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.PUT));
 		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(),
-				is(expectedRootPath+"/Greeting"));
+				is(expectedRootPath+"/greetings"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
@@ -90,7 +90,7 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.POST));
 		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(),
-				is(expectedRootPath+"/Greeting"));
+				is(expectedRootPath+"/greetings"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(1));
 	}
@@ -103,7 +103,7 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.DELETE));
 		assertThat(requestSpecification.getQueryTemplate().expand(21).toASCIIString(),
-				is(expectedRootPath+"/Greeting/21"));
+				is(expectedRootPath+"/greetings/21"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
 		assertThat(requestSpecification.getBodyIndex(), is(-1));
 	}
@@ -130,7 +130,7 @@ public class BasicEntityServiceParserTest {
 
 		assertThat(requestSpecification, is(notNullValue()));
 		assertThat(requestSpecification.getHttpRequestMethod(), is(HttpMethod.GET));
-		assertThat(requestSpecification.getQueryTemplate().toString(), is(expectedRootPath+"/Greeting"));
+		assertThat(requestSpecification.getQueryTemplate().toString(), is(expectedRootPath+"/greetings"));
 		if(byArg.length()>0)
 		{
 			assertThat(requestSpecification.getHttpRequestParams(), containsInAnyOrder(byArg));

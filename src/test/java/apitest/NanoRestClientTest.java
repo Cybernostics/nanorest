@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.example.client.ClientAppConfiguration;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
-import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserSource;
+import com.cybernostics.nanorest.lib.interfaceparsers.DefaultRequestMapper;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 
 import static org.hamcrest.core.Is.is;
@@ -42,7 +42,7 @@ public class NanoRestClientTest {
 	private GreetingsService greetingsService;
 
 	@Autowired
-	private InterfaceParserSource interfaceParserSource;
+	private DefaultRequestMapper interfaceParserSource;
 
 	@Test
 	@Ignore

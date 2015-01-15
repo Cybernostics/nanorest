@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserConfig;
-import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserSource;
+import com.cybernostics.nanorest.lib.interfaceparsers.DefaultRequestMapper;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceDirectory;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 
@@ -18,7 +18,7 @@ public class NanoRestClientConfig  {
 	private RemoteServiceEndpoint[] endPoints;
 
 	@Autowired
-	InterfaceParserSource interfaceParserSource;
+	DefaultRequestMapper interfaceParserSource;
 
 	@Bean
 	public NanoRestClientFactory nanoRestClientFactory()

@@ -22,5 +22,5 @@ import java.util.Map;
  */
 public interface InterfaceParser {
 	Map<Method,RequestSpecification> parse(Class<?> clazz);
-	boolean applicableTo(Class<?> clazz);
+	boolean canParse(Class<?> clazz);
 }

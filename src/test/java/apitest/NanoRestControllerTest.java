@@ -66,7 +66,7 @@ public class NanoRestControllerTest {
 	@Test
 	public void getWithNoArgsReturnsEmptyListWithNoData() {
 		try {
-			String contentAsString = mockMvc.perform(get(rootURL+"/greetings/")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+			String contentAsString = mockMvc.perform(get(rootURL+"/greetings")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 			assertThat(contentAsString, is("[]"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,10 +98,6 @@ public class NanoRestControllerTest {
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
-
-
-
-
 	}
 
 

@@ -3,7 +3,9 @@ package com.cybernostics.nanorest.lib.interfaceparsers;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
+import org.mockito.internal.matchers.Null;
 import org.springframework.stereotype.Component;
 
 import com.cybernostics.nanorest.Inflector;
@@ -13,13 +15,14 @@ import feign.RequestTemplate;
 @Component
 public class BasicEntityServiceParser  implements InterfaceParser{
 
-	@Override
+		@Override
 	public Map<Method, RequestSpecification> parse(Class<?> serviceClass) {
-		Class<?> entity = InterfaceParserUtil.getEntity(serviceClass);
-		EntityRestService entityRestService =  serviceClass.getAnnotation(EntityRestService.class);
-		String pluralNameString = Inflector.toPlural(entity.getSimpleName());
-		Method[] declaredMethods = serviceClass.getDeclaredMethods();
-		Map<Method, RequestSpecification> map = new HashMap<>();
+			Class<?> interfaceSpecClass = getServiceClass( serviceClass);
+		Class<?> entity = InterfaceParserUtil.getEntity(interfaceSpecClass);
+		EntityRestService entityRestService =  getServiceAnnotation(interfaceSpecClass);
+		String pluralNameString = Inflector.toPlural(entity.getSimpleName().toLowerCase());
+		Method[] declaredMethods = interfaceSpecClass.getDeclaredMethods();
+		Map<Method, RequestSpecification> methodMap = new TreeMap<>(MethodSignatureComparator.get());
 		for (Method method : declaredMethods) {
 			String name = method.getName();
 			RequestSpecification methodRequestTemplate = new RequestSpecification()
@@ -31,15 +34,36 @@ public class BasicEntityServiceParser  implements InterfaceParser{
 			{
 				methodRequestTemplate.withBodyIndex(1);
 			}
-			map.put(method, methodRequestTemplate);
+			methodMap.put(method, methodRequestTemplate);
 		}
-		return map;
+		return methodMap;
 	}
+
+		private Class<?> getServiceClass(Class<?> serviceClass) {
+			EntityRestService annotation = serviceClass.getAnnotation(EntityRestService.class);
+			if (annotation!=null) {
+				return serviceClass;
+			}
+			Class<?>[] interfaces = serviceClass.getInterfaces();
+			for (Class<?> eachInterface : interfaces) {
+				annotation = eachInterface.getAnnotation(EntityRestService.class);
+				if (annotation!=null) {
+					return eachInterface;
+				}
+			}
+			return null;
+		}
+
+		private EntityRestService getServiceAnnotation(Class<?> serviceClass) {
+			Class<?> interfaceClass = getServiceClass(serviceClass);
+			return interfaceClass!=null?interfaceClass.getAnnotation(EntityRestService.class):null;
+		}
 
 	@Override
-	public boolean applicableTo(Class<?> clazz) {
-		return clazz.getAnnotation(EntityRestService.class)!=null;
+	public boolean canParse(Class<?> clazz) {
+		return getServiceAnnotation(clazz)!=null;
 
 	}
+
 
 }

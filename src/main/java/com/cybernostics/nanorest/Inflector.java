@@ -53,7 +53,7 @@ public class Inflector {
 
     public static final String toPlural(String input)
     {
-    	return getInstance().singularize(input);
+    	return getInstance().pluralize(input);
     }
 
     protected class Rule {

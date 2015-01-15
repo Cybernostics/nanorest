@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriTemplate;
 
 import com.thoughtworks.paranamer.Paranamer;
@@ -19,11 +20,11 @@ import dagger.Lazy;
 public class RequestSpecification {
 	private Method javaServiceMethod;
 
-	public Method getjavajavaServiceMethod() {
+	public Method getJavaServiceMethod() {
 		return javaServiceMethod;
 	}
 
-	public Set<String> getHttpRequestParams() {
+	public List<String> getHttpRequestParams() {
 		List<String> variableNames = getQueryTemplate().getVariableNames();
 		for (String eachArgument : javaMethodArguments) {
 			if (!variableNames.contains(eachArgument)) {
@@ -41,7 +42,7 @@ public class RequestSpecification {
 
 	private StringBuilder urlBuilder = new StringBuilder();
 	private HttpMethod httpRequestMethod;
-	private Set<String> httpRequestParams = new HashSet<>();
+	private List<String> httpRequestParams = new ArrayList<>();
 	private List<String> javaMethodArguments = new ArrayList<String>();
 	private int bodyIndex;
 	private Class<?> entityClass;
@@ -50,6 +51,10 @@ public class RequestSpecification {
 
 	public HttpMethod getHttpRequestMethod() {
 		return httpRequestMethod;
+	}
+
+	public RequestMethod getHttpServerRequestMethod() {
+		return RequestMethod.valueOf(httpRequestMethod.toString());
 	}
 
 	static Lazy<Paranamer> paranamer = InterfaceParserUtil.paranamer;
