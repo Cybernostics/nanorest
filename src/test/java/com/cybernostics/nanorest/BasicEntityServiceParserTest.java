@@ -1,4 +1,4 @@
-package apitest;
+package com.cybernostics.nanorest;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsMapContaining.hasKey;

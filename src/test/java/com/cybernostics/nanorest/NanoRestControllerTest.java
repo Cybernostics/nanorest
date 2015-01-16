@@ -1,4 +1,4 @@
-package apitest;
+package com.cybernostics.nanorest;
 
 
 import static org.hamcrest.core.Is.is;
