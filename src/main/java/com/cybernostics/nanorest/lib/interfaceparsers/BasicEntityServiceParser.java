@@ -1,16 +1,12 @@
 package com.cybernostics.nanorest.lib.interfaceparsers;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.mockito.internal.matchers.Null;
 import org.springframework.stereotype.Component;
 
 import com.cybernostics.nanorest.Inflector;
-
-import feign.RequestTemplate;
 
 @Component
 public class BasicEntityServiceParser  implements InterfaceParser{

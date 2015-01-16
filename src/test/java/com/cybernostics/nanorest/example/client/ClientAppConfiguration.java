@@ -10,8 +10,6 @@ import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 
-
-
 @Configuration
 @ComponentScan( basePackageClasses= {GreetingsService.class})
 @Import(NanoRestClientConfig.class)

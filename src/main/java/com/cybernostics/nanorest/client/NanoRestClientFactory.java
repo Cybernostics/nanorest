@@ -1,16 +1,26 @@
 package com.cybernostics.nanorest.client;
 
 import java.lang.reflect.Proxy;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.cybernostics.nanorest.servicelocator.DefaultServiceDirectory;
+import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecificationMapper;
+import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
 
 public class NanoRestClientFactory {
 
 	private ServiceDirectory serviceDirectory;
+
+	private RequestSpecificationMapper mapper;
+
+	public RequestSpecificationMapper getMapper() {
+		return mapper;
+	}
+
+	public void setMapper(RequestSpecificationMapper mapper) {
+		this.mapper = mapper;
+	}
 
 	private Map<Class<?>, RestClientInvocationHandler> handlers = new HashMap<>();
 
@@ -21,8 +31,10 @@ public class NanoRestClientFactory {
 			restClientInvocationHandler = handlers.get(interfaceClass);
 
 		}else {
-			restClientInvocationHandler = new RestClientInvocationHandler(
-					serviceDirectory.getService(interfaceClass));
+			RemoteServiceEndpoint endpoint = serviceDirectory.getService(interfaceClass);
+			restClientInvocationHandler = new RestClientInvocationHandler(endpoint,
+					mapper);
+			handlers.put(interfaceClass,restClientInvocationHandler);
 		}
 
 		return Proxy.newProxyInstance(interfaceClass.getClassLoader(),
@@ -32,8 +44,6 @@ public class NanoRestClientFactory {
 
 	public void setDirectory(ServiceDirectory defaultServiceDirectory) {
 		this.serviceDirectory = defaultServiceDirectory;
-
-		// TODO Auto-generated method stub
 
 	}
 

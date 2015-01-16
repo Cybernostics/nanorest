@@ -15,6 +15,9 @@ public class RegularPluralsTest {
 		assertThat(Inflector.toSingular("People"), is("Person"));
 		assertThat(Inflector.toSingular("Men"), is("Man"));
 		assertThat(Inflector.toSingular("Greeters"), is("Greeter"));
+		assertThat(Inflector.toPlural("Person"), is("People"));
+		assertThat(Inflector.toPlural("Man"), is("Men"));
+		assertThat(Inflector.toPlural("Greeter"), is("Greeters"));
 
 
 	}

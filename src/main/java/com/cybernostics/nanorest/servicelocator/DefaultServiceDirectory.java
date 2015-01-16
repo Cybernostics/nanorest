@@ -10,27 +10,27 @@ public class DefaultServiceDirectory implements ServiceDirectory {
 
 	@Override
 	public RemoteServiceEndpoint getService(Class<?> serviceAPI) {
-		return serviceMap.get(serviceAPI);
+		return serviceMap.get(serviceAPI.getCanonicalName());
 	}
 
 	public void registerService(Class<?> api, RemoteServiceEndpoint sources)
 	{
-		serviceMap.put(api.getName(), sources);
+		serviceMap.put(api.getCanonicalName(), sources);
 	}
 
 	public void addSource(Class<?> api, URL remoteServiceEndpoint)
 	{
-		serviceMap.get( api).add(remoteServiceEndpoint);
+		serviceMap.get( api.getCanonicalName()).add(remoteServiceEndpoint);
 	}
 
 	public void addSource(Class<?> api, RemoteServiceEndpoint remoteServiceEndpoint)
 	{
-		serviceMap.put( api.getName(),remoteServiceEndpoint);
+		serviceMap.put( api.getCanonicalName(),remoteServiceEndpoint);
 	}
 
 	public void addSource(RemoteServiceEndpoint... endPoints) {
 		for (RemoteServiceEndpoint remoteServiceEndpoint : endPoints) {
-			addSource(remoteServiceEndpoint.getClass(), remoteServiceEndpoint);
+			addSource(remoteServiceEndpoint.getServiceClass(), remoteServiceEndpoint);
 		}
 
 
