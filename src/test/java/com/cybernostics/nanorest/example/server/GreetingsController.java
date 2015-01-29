@@ -17,6 +17,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
 @Component
+/**
+ * Notice - there are no @Request, @RequestParam etc etc annotations.
+ * They are inferred from the interface which this controller implements
+ * @author jason
+ *
+ */
 public class GreetingsController implements GreetingsService {
 
 	private final AtomicLong counter = new AtomicLong();

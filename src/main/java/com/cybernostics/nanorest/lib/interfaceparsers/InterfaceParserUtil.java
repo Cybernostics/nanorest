@@ -4,10 +4,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,14 +12,12 @@ import javax.inject.Named;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cybernostics.nanorest.lib.Lazy;
 import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
-
-import dagger.Lazy;
 
 public class InterfaceParserUtil {
 	private InterfaceParserUtil() {
@@ -39,7 +33,7 @@ public class InterfaceParserUtil {
 	public static Lazy<Paranamer> paranamer = new Lazy<Paranamer>() {
 
 		@Override
-		public Paranamer get() {
+		public Paranamer create() {
 			return new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer(),new NamedAnnotationParanamer());
 		}
 	};

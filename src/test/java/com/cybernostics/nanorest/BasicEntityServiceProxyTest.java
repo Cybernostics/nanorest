@@ -3,9 +3,6 @@ package com.cybernostics.nanorest;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.File;
 import java.util.List;
@@ -17,41 +14,25 @@ import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.deploy.ApplicationListener;
 import org.apache.catalina.startup.Tomcat;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.client.NanoRestClientFactory;
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.example.client.ClientAppConfiguration;
-import com.cybernostics.nanorest.example.server.ExampleServerApplication;
 import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
-import com.cybernostics.nanorest.servicelocator.DefaultServiceEndpoint;
-import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {

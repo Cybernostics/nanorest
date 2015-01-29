@@ -1,17 +1,16 @@
 package com.cybernostics.nanorest;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.hamcrest.core.Is;
-import org.hamcrest.core.IsNot;
-import org.hamcrest.core.IsNull;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Contains;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,14 +19,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.example.client.ClientAppConfiguration;
-import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.DefaultServiceInterfaceRequestMapper;
+import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
-
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.hamcrest.core.IsNot.not;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @EnableWebMvc

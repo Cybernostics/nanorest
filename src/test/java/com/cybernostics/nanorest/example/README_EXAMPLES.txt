@@ -7,9 +7,9 @@ Normally they would (should) each live in their own maven project.
   client and server.
 
 * The server contains a simple Spring Boot Application which exposes a NanaRest
-  entity controller
+  entity controller (GreetingService)
 
-* The client shows a simple client which uses the APIs.
+* The client shows a simple client which uses the API to generate REST calls automatically.
 
 The server and client both depend on the API but not on each other.
 

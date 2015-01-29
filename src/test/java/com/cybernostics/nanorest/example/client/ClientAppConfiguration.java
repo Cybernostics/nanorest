@@ -28,12 +28,6 @@ public class ClientAppConfiguration {
 	{
 		return new DefaultServiceEndpoint(GreetingsService.class, "http://localhost:8090");
 	}
-//	@Bean
-//	public static PropertyPlaceholderConfigurer properties(){
-//	   PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-//	   ppc.setLocation(new ClassPathResource( "test.properties" ));
-//	   ppc.setIgnoreUnresolvablePlaceholders( true );
-//	   return ppc;
-//	}
+
 }
 ;

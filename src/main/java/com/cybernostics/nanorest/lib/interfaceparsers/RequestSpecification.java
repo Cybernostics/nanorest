@@ -4,18 +4,16 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriTemplate;
 
+import com.cybernostics.nanorest.lib.Lazy;
 import com.thoughtworks.paranamer.Paranamer;
 
-import dagger.Lazy;
 
 public class RequestSpecification {
 	public static final int NO_BODY = -1;
@@ -49,8 +47,6 @@ public class RequestSpecification {
 	private Class<?> entityClass;
 	private Class<?> serviceClass;
 	private Map<String, Integer> argNames = new HashMap<>();
-	private Class<?> returnClass;
-
 	public HttpMethod getHttpRequestMethod() {
 		return httpRequestMethod;
 	}

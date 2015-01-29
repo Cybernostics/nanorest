@@ -1,9 +1,6 @@
 package com.cybernostics.nanorest.client;
 
-import java.lang.reflect.Method;
 import java.util.logging.Logger;
-
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +9,6 @@ import org.springframework.context.annotation.Import;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.DefaultServiceInterfaceRequestMapper;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserConfig;
-import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
-import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecificationMapper;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceDirectory;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.ServiceDirectory;

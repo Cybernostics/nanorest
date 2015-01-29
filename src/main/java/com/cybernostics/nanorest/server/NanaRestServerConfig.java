@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserConfig;
-import com.cybernostics.nanorest.lib.interfaceparsers.DefaultServiceInterfaceRequestMapper;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecificationMapper;
 import com.cybernostics.nanorest.server.resolvers.NanaRestResolverConfig;
 

@@ -3,14 +3,15 @@ package com.cybernostics.nanorest.lib.interfaceparsers;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 
-import dagger.Lazy;
+import com.cybernostics.nanorest.lib.Lazy;
+
 
 public class MethodSignatureComparator implements Comparator<Method> {
 
 	private static Lazy<MethodSignatureComparator> comparator = new Lazy<MethodSignatureComparator>() {
 
 		@Override
-		public MethodSignatureComparator get() {
+		public MethodSignatureComparator create() {
 			return new MethodSignatureComparator();
 		}
 

@@ -1,28 +1,20 @@
 package com.cybernostics.nanorest;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hamcrest.collection.IsMapContaining.hasKey;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
-import javax.inject.Named;
-
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.matchers.Contains;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityServiceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
@@ -31,10 +23,6 @@ import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 
 
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@EnableWebMvc
-//@WebAppConfiguration
-//@ContextConfiguration(classes= {ClientAppConfiguration.class})
 public class BasicEntityServiceParserTest {
 
 	private InterfaceParser parser;
