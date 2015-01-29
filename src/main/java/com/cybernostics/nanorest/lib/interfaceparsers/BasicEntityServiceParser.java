@@ -4,9 +4,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.jvnet.inflector.Noun;
 import org.springframework.stereotype.Component;
-
-import com.cybernostics.nanorest.Inflector;
 
 @Component
 public class BasicEntityServiceParser  implements InterfaceParser{
@@ -16,7 +15,7 @@ public class BasicEntityServiceParser  implements InterfaceParser{
 			Class<?> interfaceSpecClass = getServiceClass( serviceClass);
 		Class<?> entity = InterfaceParserUtil.getEntity(interfaceSpecClass);
 		EntityRestService entityRestService =  getServiceAnnotation(interfaceSpecClass);
-		String pluralNameString = Inflector.toPlural(entity.getSimpleName().toLowerCase());
+		String pluralNameString = Noun.pluralOf(entity.getSimpleName().toLowerCase());
 		Method[] declaredMethods = interfaceSpecClass.getDeclaredMethods();
 		Map<Method, RequestSpecification> methodMap = new TreeMap<>(MethodSignatureComparator.get());
 		for (Method method : declaredMethods) {

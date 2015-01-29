@@ -28,15 +28,13 @@ public class GreetingsController implements GreetingsService {
 
 		ex.printStackTrace();
 		System.out.println();
-
 		return false;
 	}
 
-	//
 	@Override
 	public Greeting putGreeting(Greeting toPut) {
 		Greeting freshGreeting = new Greeting(counter.incrementAndGet(),
-				toPut.getContent(),toPut.getDescription());
+				toPut.getContent(), toPut.getDescription());
 		greetingsMap.put(freshGreeting.getId(), freshGreeting);
 		return freshGreeting;
 	}
@@ -53,7 +51,7 @@ public class GreetingsController implements GreetingsService {
 		if (fetchedGreeting != null) {
 			return fetchedGreeting;
 		}
-		return putGreeting(new Greeting(0, "unknown","unknown"));
+		return putGreeting(new Greeting(0, "unknown", "unknown"));
 	}
 
 	@Override
@@ -69,22 +67,24 @@ public class GreetingsController implements GreetingsService {
 
 	@Override
 	public List<Greeting> findGreetingsByContent(String content) {
-		return doFind(new ByFieldFinder<Greeting>("content", content, Greeting.class));
+		return doFind(new ByFieldFinder<Greeting>("content", content,
+				Greeting.class));
 	}
 
 	@Override
 	public List<Greeting> findGreetingsByDescription(String description) {
-		return doFind(new ByFieldFinder<Greeting>("description", description, Greeting.class));
+		return doFind(new ByFieldFinder<Greeting>("description", description,
+				Greeting.class));
 	}
 
 	@Override
 	public List<Greeting> findGreetings(Map<String, String> criteria) {
-		return doFind(new ByMapFinder<Greeting>(criteria,Greeting.class));
+		return doFind(new ByMapFinder<Greeting>(criteria, Greeting.class));
 	}
 
-	private List<Greeting> doFind(Predicate<Greeting> criteria)
-	{
-		return new ArrayList<>(Collections2.filter(greetingsMap.values(),criteria));
+	private List<Greeting> doFind(Predicate<Greeting> criteria) {
+		return new ArrayList<>(Collections2.filter(greetingsMap.values(),
+				criteria));
 	}
 
 }

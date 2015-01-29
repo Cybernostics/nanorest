@@ -45,7 +45,7 @@ public class RequestSpecification {
 	private HttpMethod httpRequestMethod;
 	private List<String> httpRequestParams = new ArrayList<>();
 	private List<String> javaMethodArguments = new ArrayList<String>();
-	private int bodyIndex;
+	private int bodyIndex=NO_BODY;
 	private Class<?> entityClass;
 	private Class<?> serviceClass;
 	private Map<String, Integer> argNames = new HashMap<>();

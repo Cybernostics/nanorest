@@ -79,7 +79,7 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(),
 				is(expectedRootPath+"/greetings"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
-		assertThat(requestSpecification.getBodyIndex(), is(1));
+		assertThat(requestSpecification.getBodyIndex(), is(0));
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class BasicEntityServiceParserTest {
 		assertThat(requestSpecification.getQueryTemplate().expand().toASCIIString(),
 				is(expectedRootPath+"/greetings"));
 		assertThat(requestSpecification.getHttpRequestParams(), is(empty()));
-		assertThat(requestSpecification.getBodyIndex(), is(1));
+		assertThat(requestSpecification.getBodyIndex(), is(0));
 	}
 
 	@Test

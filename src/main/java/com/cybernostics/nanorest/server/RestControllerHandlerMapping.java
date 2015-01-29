@@ -1,10 +1,7 @@
 package com.cybernostics.nanorest.server;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.condition.ConsumesRequestCondition;
 import org.springframework.web.servlet.mvc.condition.HeadersRequestCondition;
 import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;
@@ -14,11 +11,8 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.cybernostics.nanorest.Inflector;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecificationMapper;
-import com.thoughtworks.paranamer.AdaptiveParanamer;
-import com.thoughtworks.paranamer.Paranamer;
 
 public class RestControllerHandlerMapping  extends RequestMappingHandlerMapping{
 

@@ -69,7 +69,8 @@ public class HttpRequestExecutorTest {
 		NOPHttpServiceTemplate restTemplate = new NOPHttpServiceTemplate();
 		RequestSpecification requestSpecification = new RequestSpecification()
 		.appendURL("/sample")
-		.withHttpRequestMethod(HttpMethod.GET);
+		.withHttpRequestMethod(HttpMethod.GET)
+		.withBodyIndex(-1);
 
 		RemoteServiceEndpoint service = directory.getService(GreetingsService.class);
 		assertThat(service, Is.is(IsNot.not(IsNull.nullValue())));
