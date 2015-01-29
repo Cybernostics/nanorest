@@ -1,5 +1,7 @@
 package com.cybernostics.nanorest.client;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
@@ -8,8 +10,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriTemplate;
@@ -17,6 +22,8 @@ import org.springframework.web.util.UriTemplate;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class HttpRequestExecutor {
@@ -35,35 +42,35 @@ public class HttpRequestExecutor {
 	 */
 	public ResponseEntity<byte[]> doRequest(
 			RemoteServiceEndpoint service,
-			RestTemplate restTemplate,
+			HttpService httpService,
 			RequestSpecification requestSpecification,
 			Object... argsObjects) {
 		UriTemplate uriTemplate = requestSpecification.getQueryTemplate();
 		List<Object> variableValues = requestSpecification.arrangeArgsForURITemplate(uriTemplate, argsObjects);
 
-		List<URL> urls = service.getURLS();
-		for (URL url : urls) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<byte[]> entity = null;
+		if (requestSpecification.getBodyIndex()!=RequestSpecification.NO_BODY) {
+			Object bodyObject = requestSpecification.getBodyFromArgs(argsObjects);
+			ObjectMapper mapper = new ObjectMapper();
 			try {
-				String URI = url.toURI().toASCIIString();
-				HttpHeaders headers = new HttpHeaders();
-				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-				HttpEntity<String> entity = new HttpEntity<String>(
+				headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+				byte[] bodyAsBytes = mapper.writeValueAsBytes(bodyObject);
+				entity = new HttpEntity<byte[]>(bodyAsBytes,
 						headers);
-
-				String queryURL = uriTemplate.expand(variableValues).toASCIIString();
-				return restTemplate.exchange(
-						URI+queryURL,
-						requestSpecification.getHttpRequestMethod(),
-						entity,
-						byte[].class, variableValues);
-			} catch (URISyntaxException e) {
-				log.warn(e);
-			} catch (HttpClientErrorException e) {
-				log.warn(e);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
 			}
+		}else{
+			entity = new HttpEntity<byte[]>(
+					headers);
 		}
-		log.error("Service list exhausted without response.");
-		return null;
+		// TODO if post then post the variables in mime encoded body...
+		String queryURL = uriTemplate.expand(variableValues).toASCIIString();
+		return httpService.call(service, queryURL, requestSpecification.getHttpRequestMethod(),
+				entity);
+
 	}
 
 }

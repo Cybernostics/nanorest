@@ -7,8 +7,7 @@ import javax.inject.Named;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 
-
-@EntityRestService("greeter/api/v1") //
+@EntityRestService("/greeter/api/v1") //
 public interface GreetingsService {
 
 	Greeting putGreeting(@Named("toPut")Greeting toPut);

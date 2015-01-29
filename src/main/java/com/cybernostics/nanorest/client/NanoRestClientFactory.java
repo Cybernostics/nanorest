@@ -14,9 +14,8 @@ public class NanoRestClientFactory {
 
 	private RequestSpecificationMapper mapper;
 
-	public RequestSpecificationMapper getMapper() {
-		return mapper;
-	}
+	private HttpService httpService;
+
 
 	public void setMapper(RequestSpecificationMapper mapper) {
 		this.mapper = mapper;
@@ -33,13 +32,16 @@ public class NanoRestClientFactory {
 		}else {
 			RemoteServiceEndpoint endpoint = serviceDirectory.getService(interfaceClass);
 			restClientInvocationHandler = new RestClientInvocationHandler(endpoint,
-					mapper);
+					mapper, httpService);
 			handlers.put(interfaceClass,restClientInvocationHandler);
 		}
 
 		return Proxy.newProxyInstance(interfaceClass.getClassLoader(),
 				new Class[] { interfaceClass }, restClientInvocationHandler);
+	}
 
+	public void setHttpService(HttpService httpService) {
+		this.httpService = httpService;
 	}
 
 	public void setDirectory(ServiceDirectory defaultServiceDirectory) {

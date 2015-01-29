@@ -34,8 +34,10 @@ public class PostPutBodyArgumentResolver implements  HandlerMethodArgumentResolv
 			this.servletRequest = servletRequest;
 			headers = new HttpHeaders();
 			Enumeration<String> headerNames = servletRequest.getHeaderNames();
-			for (String eachHeader = headerNames.nextElement();headerNames.hasMoreElements(); eachHeader = headerNames.nextElement()) {
-				headers.add(eachHeader, servletRequest.getHeader(eachHeader));
+			if (headerNames.hasMoreElements()) {
+				for (String eachHeader = headerNames.nextElement();headerNames.hasMoreElements(); eachHeader = headerNames.nextElement()) {
+					headers.add(eachHeader, servletRequest.getHeader(eachHeader));
+				}
 			}
 		}
 

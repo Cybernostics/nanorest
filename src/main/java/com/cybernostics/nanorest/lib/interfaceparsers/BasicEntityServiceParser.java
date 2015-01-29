@@ -28,7 +28,7 @@ public class BasicEntityServiceParser  implements InterfaceParser{
 				.forJavaMethod(method);
 			if(name.startsWith("put")||name.startsWith("post"))
 			{
-				methodRequestTemplate.withBodyIndex(1);
+				methodRequestTemplate.withBodyIndex(0);
 			}
 			methodMap.put(method, methodRequestTemplate);
 		}

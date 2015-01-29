@@ -18,6 +18,7 @@ import com.thoughtworks.paranamer.Paranamer;
 import dagger.Lazy;
 
 public class RequestSpecification {
+	public static final int NO_BODY = -1;
 	private Method javaServiceMethod;
 
 	public Method getJavaServiceMethod() {
@@ -28,7 +29,7 @@ public class RequestSpecification {
 		List<String> variableNames = getQueryTemplate().getVariableNames();
 		for (String eachArgument : javaMethodArguments) {
 			if (!variableNames.contains(eachArgument)) {
-				if(bodyIndex==-1) {
+				if(bodyIndex==NO_BODY) {
 					httpRequestParams.add(eachArgument);
 				}
 			}
@@ -48,6 +49,7 @@ public class RequestSpecification {
 	private Class<?> entityClass;
 	private Class<?> serviceClass;
 	private Map<String, Integer> argNames = new HashMap<>();
+	private Class<?> returnClass;
 
 	public HttpMethod getHttpRequestMethod() {
 		return httpRequestMethod;
@@ -149,12 +151,17 @@ public class RequestSpecification {
 		return objList;
 	}
 
+	public Class<?> getReturnClass() {
+		return this.javaServiceMethod.getReturnType();
+
+	}
+
 	private int getArgIndexFor(String argName) {
 		if(argNames.containsKey(argName))
 		{
 			return argNames.get(argName);
 		}
-		throw new IllegalArgumentException("Unknown method argument:"+argName);
+		throw new IllegalArgumentException( "Unknown method argument:" + argName );
 	}
 
 }
