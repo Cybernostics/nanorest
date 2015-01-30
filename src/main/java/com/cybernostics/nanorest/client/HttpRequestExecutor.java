@@ -12,14 +12,14 @@ import org.springframework.web.util.UriTemplate;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
-import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
+import com.cybernostics.nanorest.servicelocator.ServiceEndpointDirectory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class HttpRequestExecutor {
 
-	private ServiceDirectory serviceDirectory;
+	private ServiceEndpointDirectory serviceDirectory;
 
 	static Logger log;
 

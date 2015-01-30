@@ -4,12 +4,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultServiceDirectory implements ServiceDirectory {
+public class DefaultServiceDirectory implements ServiceEndpointDirectory {
 
 	private Map<String,RemoteServiceEndpoint > serviceMap = new HashMap<String, RemoteServiceEndpoint>();
 
 	@Override
-	public RemoteServiceEndpoint getService(Class<?> serviceAPI) {
+	public RemoteServiceEndpoint getEndpoint(Class<?> serviceAPI) {
 		return serviceMap.get(serviceAPI.getCanonicalName());
 	}
 

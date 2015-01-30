@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.IsNull;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +29,19 @@ import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
-import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
+import com.cybernostics.nanorest.servicelocator.ServiceEndpointDirectory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@EnableWebMvc
-@WebAppConfiguration
-@ComponentScan
 @ContextConfiguration( classes = {HttpRequestExecutorTest.testConfig.class,NanoRestClientConfig.class})
 public class HttpRequestExecutorTest {
 
 	@Autowired
-	ServiceDirectory directory;
+	ServiceEndpointDirectory directory;
+	private MockCallableHttpService mockService;
+	private RemoteServiceEndpoint endpoint;
+	private HttpRequestExecutor httpRequestExecutor;
 
-	public static class NOPHttpServiceTemplate extends CallableHttpService{
+	public static class MockCallableHttpService extends CallableHttpService{
 		public String urlstring = null;
 		public HttpMethod method = null;
 		public HttpEntity<byte[]> entity = null;
@@ -56,22 +57,26 @@ public class HttpRequestExecutorTest {
 		}
 	};
 
+	@Before
+	public void setup() {
+		mockService = new MockCallableHttpService();
+		endpoint = directory.getEndpoint(GreetingsService.class);
+		assertThat(endpoint, Is.is(IsNot.not(IsNull.nullValue())));
+		httpRequestExecutor = new HttpRequestExecutor();
+	}
+
 	@Test
-	public void test() {
-		NOPHttpServiceTemplate restTemplate = new NOPHttpServiceTemplate();
+	public void getXYZ() {
 		RequestSpecification requestSpecification = new RequestSpecification()
 		.appendURL("/sample")
 		.withHttpRequestMethod(HttpMethod.GET)
 		.withBodyIndex(-1);
 
-		RemoteServiceEndpoint service = directory.getService(GreetingsService.class);
-		assertThat(service, Is.is(IsNot.not(IsNull.nullValue())));
-		HttpRequestExecutor httpRequestExecutor = new HttpRequestExecutor();
-		httpRequestExecutor.doRequest(service,restTemplate, requestSpecification, new Object[0]);
-		assertThat(restTemplate.urlstring, Is.is("/sample"));
-		assertThat(restTemplate.method, Is.is(HttpMethod.GET));
-
+		httpRequestExecutor.doRequest(endpoint,mockService, requestSpecification, new Object[0]);
+		assertThat(mockService.urlstring, Is.is("/sample"));
+		assertThat(mockService.method, Is.is(HttpMethod.GET));
 	}
+
 
 	@Configuration
 	public static class testConfig{

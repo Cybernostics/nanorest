@@ -13,7 +13,7 @@ import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserConfig;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceDirectory;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
-import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
+import com.cybernostics.nanorest.servicelocator.ServiceEndpointDirectory;
 
 /**
  * Standard Spring Config for setting up a client
@@ -61,7 +61,7 @@ public class NanoRestClientConfig  {
 	}
 
 	@Bean
-	public ServiceDirectory serviceDirectory()
+	public ServiceEndpointDirectory serviceDirectory()
 	{
 		DefaultServiceDirectory defaultServiceDirectory = new DefaultServiceDirectory();
 		defaultServiceDirectory.addSource(endPoints);

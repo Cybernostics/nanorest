@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecificationMapper;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
-import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
+import com.cybernostics.nanorest.servicelocator.ServiceEndpointDirectory;
 
 /**
  * NanoRestClientFactory creates a local proxy class to access
@@ -18,7 +18,7 @@ public class NanoRestClientFactory {
 	/**
 	 * Provides a lookup of available services.
 	 */
-	private ServiceDirectory serviceDirectory;
+	private ServiceEndpointDirectory serviceDirectory;
 
 	private RequestSpecificationMapper mapper;
 
@@ -38,7 +38,7 @@ public class NanoRestClientFactory {
 			restClientInvocationHandler = handlers.get(interfaceClass);
 
 		}else {
-			RemoteServiceEndpoint endpoint = serviceDirectory.getService(interfaceClass);
+			RemoteServiceEndpoint endpoint = serviceDirectory.getEndpoint(interfaceClass);
 			restClientInvocationHandler = new RestClientInvocationHandler(endpoint,
 					mapper, httpService);
 			handlers.put(interfaceClass,restClientInvocationHandler);
@@ -52,7 +52,7 @@ public class NanoRestClientFactory {
 		this.httpService = httpService;
 	}
 
-	public void setDirectory(ServiceDirectory defaultServiceDirectory) {
+	public void setDirectory(ServiceEndpointDirectory defaultServiceDirectory) {
 		this.serviceDirectory = defaultServiceDirectory;
 
 	}
