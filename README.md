@@ -6,14 +6,15 @@ talk to each other using some form of REST.
 
 Spring has lots of annotations and templates to make things easier, but nanoRest is an attempt to
 make things easier still and also more consistent:
-i) Make it easier to create consistent looking REST controllers requiring a minimum of annotations.
-ii) Create clients automatically based on a shared interface used to create the controller.
-iii) Ensure that the interface controls what both the client and server look like, resulting in
+
+ 1. Make it easier to create consistent looking REST controllers requiring a minimum of annotations.
+ 2. Create clients automatically based on a shared interface used to create the controller.
+ 3. Ensure that the interface controls what both the client and server look like, resulting in
 a lower burden on testing to ensure everything plays nicely together.
-iv) Discourage people doing things with REST which the Lord never intended, like variants of RPC.
+ 4. Discourage people doing things with REST which the Lord never intended, like variants of RPC.
 (Although the excellent [json-rpc](https://github.com/briandilley/jsonrpc4j) library helps create REST RPC services if you are inclined
 in that direction)
-v) Make it easier to enforce patterns of interfaces.
+ 5. Make it easier to enforce patterns of interfaces.
 
 How does it do all of these things?
 
