@@ -1,10 +1,6 @@
-package com.cybernostics.nanorest;
+package com.cybernostics.nanorest.test.client;
 
 import static org.junit.Assert.assertThat;
-
-import java.net.URI;
-
-import javax.swing.text.html.parser.Entity;
 
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNot;
@@ -23,14 +19,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.client.RequestCallback;
-import org.springframework.web.client.ResponseExtractor;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.client.HttpRequestExecutor;
-import com.cybernostics.nanorest.client.HttpService;
+import com.cybernostics.nanorest.client.CallableHttpService;
 import com.cybernostics.nanorest.client.NanoRestClientConfig;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
@@ -48,7 +40,7 @@ public class HttpRequestExecutorTest {
 	@Autowired
 	ServiceDirectory directory;
 
-	public static class NOPHttpServiceTemplate extends HttpService{
+	public static class NOPHttpServiceTemplate extends CallableHttpService{
 		public String urlstring = null;
 		public HttpMethod method = null;
 		public HttpEntity<byte[]> entity = null;

@@ -1,4 +1,4 @@
-package com.cybernostics.nanorest;
+package com.cybernostics.nanorest.integrationtest;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -37,8 +37,8 @@ import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {
 		ClientAppConfiguration.class,
-		BasicEntityServiceProxyTest.TestConfig.class})
-public class BasicEntityServiceProxyTest {
+		NanoRestClientServerIntegrationTest.TestConfig.class})
+public class NanoRestClientServerIntegrationTest {
 
 	 private static CountDownLatch cdl = new CountDownLatch(1);
 

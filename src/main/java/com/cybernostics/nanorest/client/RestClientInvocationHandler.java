@@ -20,10 +20,10 @@ public class RestClientInvocationHandler implements InvocationHandler{
 	private RequestSpecificationMapper requestSpecMapper;
 	private HttpRequestExecutor httpRequestExecutor;
 	private ObjectMapper jsonmapper;
-	private HttpService httpService;
+	private CallableHttpService httpService;
 
 	public RestClientInvocationHandler(RemoteServiceEndpoint remoteServiceEndpoint,
-			RequestSpecificationMapper mapper, HttpService httpService) {
+			RequestSpecificationMapper mapper, CallableHttpService httpService) {
 		this.remoteServiceEndpoint = remoteServiceEndpoint;
 		this.requestSpecMapper = mapper;
 		this.httpService = httpService;

@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 
-public class HttpService {
+public class CallableHttpService {
 
 	public ResponseEntity<byte[]> call( RemoteServiceEndpoint remoteServiceEndpoint, String resourcePath,HttpMethod method, HttpEntity<byte[]> requestEntity) {
 

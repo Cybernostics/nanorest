@@ -8,13 +8,21 @@ import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecificationMapper
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
 
+/**
+ * NanoRestClientFactory creates a local proxy class to access
+ * nanoRest Service controllers
+ * @author Jason Wraxall (jason@cybernostics.com.au)
+ */
 public class NanoRestClientFactory {
 
+	/**
+	 * Provides a lookup of available services.
+	 */
 	private ServiceDirectory serviceDirectory;
 
 	private RequestSpecificationMapper mapper;
 
-	private HttpService httpService;
+	private CallableHttpService httpService;
 
 
 	public void setMapper(RequestSpecificationMapper mapper) {
@@ -40,7 +48,7 @@ public class NanoRestClientFactory {
 				new Class[] { interfaceClass }, restClientInvocationHandler);
 	}
 
-	public void setHttpService(HttpService httpService) {
+	public void setHttpService(CallableHttpService httpService) {
 		this.httpService = httpService;
 	}
 

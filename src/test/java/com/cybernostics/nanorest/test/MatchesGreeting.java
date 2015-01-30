@@ -1,4 +1,4 @@
-package apitest.matchers;
+package com.cybernostics.nanorest.test;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;

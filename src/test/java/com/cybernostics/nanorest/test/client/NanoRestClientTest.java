@@ -1,4 +1,4 @@
-package com.cybernostics.nanorest;
+package com.cybernostics.nanorest.test.client;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;

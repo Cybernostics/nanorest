@@ -25,15 +25,14 @@ public class HttpRequestExecutor {
 
 	/**
 	 * Executes a request on a list of servers in turn until one request succeeds.
-	 * @param service2
-	 *
-	 * @param requestSpecification
-	 * @param argsObjects
-	 * @return
+	 * @param service - the endpoint which has the list of urls for that service
+	 * @param requestSpecification - describes the type of request to make
+	 * @param argsObjects - arbitrary request-specific arguments
+	 * @return a ResponseEntity with a byte array
 	 */
 	public ResponseEntity<byte[]> doRequest(
 			RemoteServiceEndpoint service,
-			HttpService httpService,
+			CallableHttpService callableService,
 			RequestSpecification requestSpecification,
 			Object... argsObjects) {
 		UriTemplate uriTemplate = requestSpecification.getQueryTemplate();
@@ -57,9 +56,9 @@ public class HttpRequestExecutor {
 			entity = new HttpEntity<byte[]>(
 					headers);
 		}
-		// TODO if post then post the variables in mime encoded body...
+		// TODO if post and argsObjects[0] is a map then post the variables in mime encoded body...
 		String queryURL = uriTemplate.expand(variableValues).toASCIIString();
-		return httpService.call(service, queryURL, requestSpecification.getHttpRequestMethod(),
+		return callableService.call(service, queryURL, requestSpecification.getHttpRequestMethod(),
 				entity);
 
 	}

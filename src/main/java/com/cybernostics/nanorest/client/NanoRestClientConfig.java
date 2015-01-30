@@ -13,6 +13,11 @@ import com.cybernostics.nanorest.servicelocator.DefaultServiceDirectory;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 import com.cybernostics.nanorest.servicelocator.ServiceDirectory;
 
+/**
+ * Standard Spring Config for setting up a client
+ * @author jason
+ *
+ */
 @Configuration
 @Import(InterfaceParserConfig.class)
 public class NanoRestClientConfig  {
@@ -25,9 +30,18 @@ public class NanoRestClientConfig  {
 	@Autowired
 	DefaultServiceInterfaceRequestMapper interfaceParserSource;
 
+	/**
+	 * For testing you could provide your own mock version which will be fed into the
+	 * client factory.
+	 */
 	@Autowired(required=false)
-	private HttpService httpService;
+	private CallableHttpService httpService;
 
+	/**
+	 * This is the bean you wire to get dynamic clients cooked up for your interfaces
+	 * @See com.cybernostics.nanorest.example.client.ExampleClientApplication for usage
+	 * @return a factory instance for all your nanoRest client generation needs.
+	 */
 	@Bean
 	public NanoRestClientFactory nanoRestClientFactory()
 	{
@@ -35,10 +49,10 @@ public class NanoRestClientConfig  {
 		nanoRestClientFactory.setDirectory(serviceDirectory());
 		nanoRestClientFactory.setMapper(interfaceParserSource);
 		if(httpService!=null){
-			httpService=new HttpService();
+			httpService=new CallableHttpService();
 		}else {
 			LOG.info("No httpService autowired so creating one");
-			httpService = new HttpService();
+			httpService = new CallableHttpService();
 		}
 		nanoRestClientFactory.setHttpService(httpService);
 		return nanoRestClientFactory;

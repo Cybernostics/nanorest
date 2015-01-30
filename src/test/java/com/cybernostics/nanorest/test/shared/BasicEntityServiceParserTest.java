@@ -1,4 +1,4 @@
-package com.cybernostics.nanorest;
+package com.cybernostics.nanorest.test.shared;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;

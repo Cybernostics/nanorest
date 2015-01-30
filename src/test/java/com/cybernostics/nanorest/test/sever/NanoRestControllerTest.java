@@ -1,6 +1,7 @@
-package com.cybernostics.nanorest;
+package com.cybernostics.nanorest.test.sever;
 
 
+import static com.cybernostics.nanorest.test.MatchesGreeting.matches;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -9,15 +10,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -33,11 +31,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
 import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static apitest.matchers.MatchesGreeting.matches;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @EnableWebMvc
