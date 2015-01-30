@@ -1,14 +1,19 @@
 # nanoRest making MicroServices simpler...
 ## A convention over configuration approach to rest client and server development
 
-Lots of people are spending lots of time cooking up microservices and many of these
+Lots of people are spending lots of time cooking up microservices and many of these services
 talk to each other using some form of REST.
 
-Spring has lots of annotations and templates to make things easier, but nanoRest is an attempt to:
+Spring has lots of annotations and templates to make things easier, but nanoRest is an attempt to
+make things easier still and also more consistent:
 i) Make it easier to create consistent looking REST controllers requiring a minimum of annotations.
 ii) Create clients automatically based on a shared interface used to create the controller.
 iii) Ensure that the interface controls what both the client and server look like, resulting in
 a lower burden on testing to ensure everything plays nicely together.
+iv) Discourage people doing things with REST which the Lord never intended, like variants of RPC.
+(Although the excellent [json-rpc](https://github.com/briandilley/jsonrpc4j) library helps create REST RPC services if you are inclined
+in that direction)
+v) Make it easier to enforce patterns of interfaces.
 
 How does it do all of these things?
 
