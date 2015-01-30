@@ -11,7 +11,7 @@ import com.cybernostics.nanorest.server.NanaRestServerConfig;
 @Configuration
 @ComponentScan
 @Import(NanaRestServerConfig.class)
-public class ServerAppConfiguration {
+public class ServerAppConfig {
 
 	@Bean
 	MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter()

@@ -14,7 +14,7 @@ import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 @Configuration
 @ComponentScan( basePackageClasses= {GreetingsService.class})
 @Import(NanoRestClientConfig.class)
-public class ClientAppConfiguration {
+public class ClientAppConfig {
 
 	@Bean
 	public RemoteServiceEndpoint greetingEndPoint()

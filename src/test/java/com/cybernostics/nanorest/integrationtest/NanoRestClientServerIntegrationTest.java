@@ -31,12 +31,12 @@ import org.springframework.web.servlet.DispatcherServlet;
 import com.cybernostics.nanorest.client.NanoRestClientFactory;
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
-import com.cybernostics.nanorest.example.client.ClientAppConfiguration;
-import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
+import com.cybernostics.nanorest.example.client.ClientAppConfig;
+import com.cybernostics.nanorest.example.server.ServerAppConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {
-		ClientAppConfiguration.class,
+		ClientAppConfig.class,
 		NanoRestClientServerIntegrationTest.TestConfig.class})
 public class NanoRestClientServerIntegrationTest {
 
@@ -56,7 +56,7 @@ public class NanoRestClientServerIntegrationTest {
 	        File base = new File("");
 	        Context rootCtx = tomcat.addContext("/", base.getAbsolutePath());
 	        AnnotationConfigWebApplicationContext aactx = new AnnotationConfigWebApplicationContext();
-	        aactx.register(ServerAppConfiguration.class);
+	        aactx.register(ServerAppConfig.class);
 	        DispatcherServlet dispatcher = new DispatcherServlet(aactx);
 	        Tomcat.addServlet(rootCtx, "SpringMVC", dispatcher);
 	        rootCtx.addServletMapping("/*", "SpringMVC");

@@ -18,7 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
-import com.cybernostics.nanorest.example.client.ClientAppConfiguration;
+import com.cybernostics.nanorest.example.client.ClientAppConfig;
 import com.cybernostics.nanorest.lib.interfaceparsers.DefaultServiceInterfaceRequestMapper;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
@@ -26,7 +26,7 @@ import com.cybernostics.nanorest.lib.interfaceparsers.RequestSpecification;
 @RunWith(SpringJUnit4ClassRunner.class)
 @EnableWebMvc
 @WebAppConfiguration
-@ContextConfiguration(classes= {ClientAppConfiguration.class})
+@ContextConfiguration(classes= {ClientAppConfig.class})
 
 public class NanoRestClientTest {
 

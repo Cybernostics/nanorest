@@ -30,7 +30,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.server.GreetingsController;
-import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
+import com.cybernostics.nanorest.example.server.ServerAppConfig;
 import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @EnableWebMvc
 @WebAppConfiguration
-@ContextConfiguration(classes= {ServerAppConfiguration.class,NanoRestControllerTest.TestConfig.class})
+@ContextConfiguration(classes= {ServerAppConfig.class,NanoRestControllerTest.TestConfig.class})
 public class NanoRestControllerTest {
 
 	 @Autowired
