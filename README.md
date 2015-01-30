@@ -12,7 +12,7 @@ make things easier still and also more consistent:
  3. Ensure that the interface controls what both the client and server look like, resulting in
 a lower burden on testing to ensure everything plays nicely together.
  4. Discourage people doing things with REST which the Lord never intended, like variants of RPC.
-(Although the excellent [json-rpc](https://github.com/briandilley/jsonrpc4j) library helps create REST RPC services if you are inclined
+(Although the excellent [json-rpc](https://github.com/briandilley/jsonrpc4j) library helps create json backed RPC services if you are inclined
 in that direction)
  5. Make it easier to enforce patterns of interfaces.
 
