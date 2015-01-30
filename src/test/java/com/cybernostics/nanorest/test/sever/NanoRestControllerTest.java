@@ -29,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cybernostics.nanorest.example.api.v1.Greeting;
+import com.cybernostics.nanorest.example.server.GreetingsController;
 import com.cybernostics.nanorest.example.server.ServerAppConfiguration;
 import com.cybernostics.nanorest.lib.interfaceparsers.EntityRestService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -46,12 +47,16 @@ public class NanoRestControllerTest {
 	 private ObjectMapper objectMapper = new ObjectMapper();
 
 	 private MockMvc mockMvc;
+	 
+	 @Autowired
+	 GreetingsController controller;
 
 	 private final String rootURL = "/greeter/api/v1";
 
 	 @Before
 	 public void setup() {
 	  this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	  controller.reset();
 	 }
 	@Test
 	public void testAnnotation() {

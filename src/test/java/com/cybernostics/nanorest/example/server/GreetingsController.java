@@ -93,4 +93,9 @@ public class GreetingsController implements GreetingsService {
 				criteria));
 	}
 
+	public void reset() {
+		greetingsMap.clear();
+
+	}
+
 }
