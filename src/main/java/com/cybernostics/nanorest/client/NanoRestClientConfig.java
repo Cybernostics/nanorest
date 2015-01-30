@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import com.cybernostics.nanorest.lib.interfaceparsers.BasicEntityServiceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.DefaultServiceInterfaceRequestMapper;
+import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParser;
 import com.cybernostics.nanorest.lib.interfaceparsers.InterfaceParserConfig;
 import com.cybernostics.nanorest.servicelocator.DefaultServiceDirectory;
 import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
@@ -64,5 +66,11 @@ public class NanoRestClientConfig  {
 		DefaultServiceDirectory defaultServiceDirectory = new DefaultServiceDirectory();
 		defaultServiceDirectory.addSource(endPoints);
 		return defaultServiceDirectory;
+	}
+
+
+	@Bean
+	InterfaceParser basicEntityServiceParser() {
+		return new BasicEntityServiceParser();
 	}
 }

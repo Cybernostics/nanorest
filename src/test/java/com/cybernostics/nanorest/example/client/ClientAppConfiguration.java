@@ -16,13 +16,6 @@ import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 @Import(NanoRestClientConfig.class)
 public class ClientAppConfiguration {
 
-
-
-	@Bean
-	BasicEntityServiceParser basicEntityServiceParser() {
-		return new BasicEntityServiceParser();
-	}
-
 	@Bean
 	public RemoteServiceEndpoint greetingEndPoint()
 	{
