@@ -33,14 +33,12 @@ public class FinderParamArgumentResolver extends RequestParamMethodArgumentResol
 
 	@Override
 	protected NamedValueInfo createNamedValueInfo(MethodParameter parameter) {
-		// TODO Auto-generated method stub
 		return super.createNamedValueInfo(parameter);
 	}
 
 	@Override
 	protected void handleMissingValue(String paramName,
 			MethodParameter parameter) throws ServletException {
-		// TODO Auto-generated method stub
 		super.handleMissingValue(paramName, parameter);
 	}
 

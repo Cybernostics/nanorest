@@ -65,6 +65,8 @@ public class RequestSpecification {
 	private Class<?> entityClass;
 	private Class<?> serviceClass;
 	private Map<String, Integer> argNames = new HashMap<>();
+	private boolean finderQuery;
+
 	public HttpMethod getHttpRequestMethod() {
 		return httpRequestMethod;
 	}
@@ -117,6 +119,14 @@ public class RequestSpecification {
 		return this;
 	}
 
+	public RequestSpecification setFinder(boolean finder) {
+		this.finderQuery=finder;
+		return this;
+	}
+
+	public boolean isFinder() {
+		return finderQuery;
+	}
 	/**
 	 * Takes a list of arguments and matches them in order
 	 * with the parameter names for the method.

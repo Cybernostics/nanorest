@@ -44,10 +44,7 @@ public class RestClientInvocationHandler implements InvocationHandler{
 				JsonNode node = jsonmapper.readTree(body);
 				for (JsonNode jsonNode : node) {
 
-//					String asText = jsonNode.toString();
-//					System.out.println(asText);
 					entities.add(jsonmapper.treeToValue(jsonNode, spec.getEntityClass()));
-//					entities.add(jsonmapper.readValue(asText, ));
 				}
 				return entities;
 			}

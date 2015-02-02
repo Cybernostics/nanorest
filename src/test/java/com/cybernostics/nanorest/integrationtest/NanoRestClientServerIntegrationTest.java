@@ -1,11 +1,14 @@
 package com.cybernostics.nanorest.integrationtest;
 
+import static com.cybernostics.nanorest.test.MatchesGreeting.matches;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -35,12 +38,11 @@ import com.cybernostics.nanorest.example.client.ClientAppConfig;
 import com.cybernostics.nanorest.example.server.ServerAppConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= {
-		ClientAppConfig.class,
-		NanoRestClientServerIntegrationTest.TestConfig.class})
+@ContextConfiguration(classes = { ClientAppConfig.class,
+		NanoRestClientServerIntegrationTest.TestConfig.class })
 public class NanoRestClientServerIntegrationTest {
 
-	 private static CountDownLatch cdl = new CountDownLatch(1);
+	private static CountDownLatch cdl = new CountDownLatch(1);
 
 	@Autowired
 	NanoRestClientFactory nanoRestClientFactory;
@@ -49,37 +51,37 @@ public class NanoRestClientServerIntegrationTest {
 
 	@BeforeClass
 	public static void setupServer() {
-		if ( tomcat == null ) {
-	        tomcat = new Tomcat();
-	        tomcat.setPort(8090);
+		if (tomcat == null) {
+			tomcat = new Tomcat();
+			tomcat.setPort(8090);
 
-	        File base = new File("");
-	        Context rootCtx = tomcat.addContext("/", base.getAbsolutePath());
-	        AnnotationConfigWebApplicationContext aactx = new AnnotationConfigWebApplicationContext();
-	        aactx.register(ServerAppConfig.class);
-	        DispatcherServlet dispatcher = new DispatcherServlet(aactx);
-	        Tomcat.addServlet(rootCtx, "SpringMVC", dispatcher);
-	        rootCtx.addServletMapping("/*", "SpringMVC");
-	        tomcat.getServer().addLifecycleListener(new LifecycleListener() {
+			File base = new File("");
+			Context rootCtx = tomcat.addContext("/", base.getAbsolutePath());
+			AnnotationConfigWebApplicationContext aactx = new AnnotationConfigWebApplicationContext();
+			aactx.register(ServerAppConfig.class);
+			DispatcherServlet dispatcher = new DispatcherServlet(aactx);
+			Tomcat.addServlet(rootCtx, "SpringMVC", dispatcher);
+			rootCtx.addServletMapping("/*", "SpringMVC");
+			tomcat.getServer().addLifecycleListener(new LifecycleListener() {
 
 				@Override
 				public void lifecycleEvent(LifecycleEvent event) {
 					if (event.getType().equals(Lifecycle.AFTER_START_EVENT)) {
-						System.out.println("Started yay!");
 						cdl.countDown();
 					}
 				}
 			});
 
-	        try {
+			try {
 				tomcat.start();
 			} catch (LifecycleException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-	        try {
-				assertThat("Server Started correctly",cdl.await(30, TimeUnit.SECONDS), is(true));
+			try {
+				assertThat("Server Started correctly",
+						cdl.await(30, TimeUnit.SECONDS), is(true));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -99,40 +101,67 @@ public class NanoRestClientServerIntegrationTest {
 	}
 
 	@Test
-	public void shouldWireInClientFactory(){
-		assertThat(nanoRestClientFactory,is(notNullValue()));
+	public void shouldWireInClientFactory() {
+		assertThat(nanoRestClientFactory, is(notNullValue()));
 	}
 
 	@Test
-	public void shouldReturnServiceFromFactory(){
-		GreetingsService clientGreetingsService = (GreetingsService) nanoRestClientFactory.getClientFor(GreetingsService.class);
-		assertThat(clientGreetingsService,is(notNullValue()));
+	public void shouldReturnServiceFromFactory() {
+		GreetingsService clientGreetingsService = (GreetingsService) nanoRestClientFactory
+				.getClientFor(GreetingsService.class);
+		assertThat(clientGreetingsService, is(notNullValue()));
 	}
 
 	@Test
 	public void shouldProxyMethodCallsToService() throws Exception {
-		GreetingsService clientGreetingsService = (GreetingsService) nanoRestClientFactory.getClientFor(GreetingsService.class);
-		assertThat(clientGreetingsService,is(notNullValue()));
-		Greeting newGreeting = clientGreetingsService.putGreeting(new Greeting("content","description"));
+
+		// Create a magic proxy-based client in one line...
+		GreetingsService clientGreetingsService = (GreetingsService) nanoRestClientFactory
+				.getClientFor(GreetingsService.class);
+		assertThat(clientGreetingsService, is(notNullValue()));
+
+		// Use a put method to create anew resource
+		Greeting newGreeting = clientGreetingsService.putGreeting(new Greeting(
+				"content", "description"));
 		assertThat(newGreeting.getId(), is(notNullValue()));
-		String output = newGreeting.toString();
-		System.out.println(output);
-		clientGreetingsService.putGreeting(new Greeting("hello", "Description" ));
-		clientGreetingsService.putGreeting(new Greeting("hello1", "Description1" ));
-		clientGreetingsService.putGreeting(new Greeting("hello2", "Description2" ));
-        List<Greeting> greetings = clientGreetingsService.getGreetings();
+
+		Greeting updatedGreeting = clientGreetingsService.postGreeting(new Greeting(
+				newGreeting.getId(),
+				"updatedcontent",
+				"description"));
+
+		assertThat(updatedGreeting.getId(), is(newGreeting.getId()));
+		assertThat(updatedGreeting.getContent(), is("updatedcontent"));
+
+		clientGreetingsService
+				.putGreeting(new Greeting("hello", "Description"));
+		clientGreetingsService.putGreeting(new Greeting("hello1",
+				"Description1"));
+		clientGreetingsService.putGreeting(new Greeting("hello2",
+				"Description2"));
+
+		List<Greeting> greetings = clientGreetingsService.getGreetings();
 		for (Greeting eachGreeting : greetings) {
-			System.out.println(String.format("Id: %d Content:%s Description: %s",eachGreeting.getId(),eachGreeting.getContent(),eachGreeting.getDescription()));
+			System.out.println(String.format(
+					"Id: %d Content:%s Description: %s", eachGreeting.getId(),
+					eachGreeting.getContent(), eachGreeting.getDescription()));
 		}
 
+		Map<String,String> criteria = new HashMap<>();
+		List<Greeting> foundGreetings = clientGreetingsService.findGreetings(criteria);
+		assertThat(foundGreetings.size(), is(notNullValue()));
+
+		criteria.put("content", "updated*");
+		foundGreetings = clientGreetingsService.findGreetings(criteria);
+		assertThat(foundGreetings.size(), is(1));
+		Greeting foundGreeting = foundGreetings.get(0);
+		assertThat(foundGreeting, matches(updatedGreeting));
 	}
 
 	@Configuration
-	public static class TestConfig
-	{
+	public static class TestConfig {
 		@Bean
-		MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter()
-		{
+		MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter() {
 			return new MappingJackson2HttpMessageConverter();
 		}
 

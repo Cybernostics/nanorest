@@ -4,10 +4,13 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javassist.expr.NewArray;
 
 import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections.map.HashedMap;
 
 import static org.hamcrest.core.Is.is;
 
@@ -104,6 +107,25 @@ public class HttpRequestExecutorTest {
 		byte[] body = mockService.entity.getBody();
 		System.out.println(new String(body));
 		assertThat(body, is("{\"id\":1,\"content\":\"putContent\",\"description\":\"putDescription\"}".getBytes()));
+	}
+
+	@Test
+	public void findXYZ() {
+		Map<String,Object> criteria = new HashMap<>();
+		criteria.put("content", "contentmatch");
+		criteria.put("description", "descriptionmatch");
+		Object[] agsObjects = Arrays.asList(criteria).toArray();
+
+		RequestSpecification requestSpecification = new RequestSpecification()
+		.appendURL("/sample")
+		.withHttpRequestMethod(HttpMethod.GET)
+		.withRequestParams("criteria")
+		.setFinder(true);
+
+		httpRequestExecutor.doRequest(endpoint,mockService, requestSpecification, agsObjects);
+		assertThat(mockService.urlstring, is("/sample?content=contentmatch&description=descriptionmatch"));
+		assertThat(mockService.method, is(HttpMethod.GET));
+
 	}
 
 
