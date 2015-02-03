@@ -19,6 +19,7 @@ import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.startup.Tomcat;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,68 +37,30 @@ import com.cybernostics.nanorest.example.api.v1.Greeting;
 import com.cybernostics.nanorest.example.api.v1.GreetingsService;
 import com.cybernostics.nanorest.example.client.ClientAppConfig;
 import com.cybernostics.nanorest.example.server.ServerAppConfig;
+import com.cybernostics.nanorest.servicelocator.DefaultServiceEndpoint;
+import com.cybernostics.nanorest.servicelocator.RemoteServiceEndpoint;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { ClientAppConfig.class,
 		NanoRestClientServerIntegrationTest.TestConfig.class })
 public class NanoRestClientServerIntegrationTest {
 
-	private static CountDownLatch cdl = new CountDownLatch(1);
+	private static EmbeddedTomcatServer embeddedTomactServer;
 
 	@Autowired
 	NanoRestClientFactory nanoRestClientFactory;
 
-	private static Tomcat tomcat;
-
 	@BeforeClass
 	public static void setupServer() {
-		if (tomcat == null) {
-			tomcat = new Tomcat();
-			tomcat.setPort(8090);
 
-			File base = new File("");
-			Context rootCtx = tomcat.addContext("/", base.getAbsolutePath());
-			AnnotationConfigWebApplicationContext aactx = new AnnotationConfigWebApplicationContext();
-			aactx.register(ServerAppConfig.class);
-			DispatcherServlet dispatcher = new DispatcherServlet(aactx);
-			Tomcat.addServlet(rootCtx, "SpringMVC", dispatcher);
-			rootCtx.addServletMapping("/*", "SpringMVC");
-			tomcat.getServer().addLifecycleListener(new LifecycleListener() {
-
-				@Override
-				public void lifecycleEvent(LifecycleEvent event) {
-					if (event.getType().equals(Lifecycle.AFTER_START_EVENT)) {
-						cdl.countDown();
-					}
-				}
-			});
-
-			try {
-				tomcat.start();
-			} catch (LifecycleException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			try {
-				assertThat("Server Started correctly",
-						cdl.await(30, TimeUnit.SECONDS), is(true));
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
+		embeddedTomactServer = new EmbeddedTomcatServer(8090,ServerAppConfig.class);
+		embeddedTomactServer.startServer();
+		embeddedTomactServer.awaitServerStart();
 	}
 
 	@AfterClass
 	public static void allDone() {
-		try {
-			tomcat.stop();
-		} catch (LifecycleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		embeddedTomactServer.stopServer();
 	}
 
 	@Test
@@ -165,6 +128,10 @@ public class NanoRestClientServerIntegrationTest {
 			return new MappingJackson2HttpMessageConverter();
 		}
 
+		@Bean
+		public RemoteServiceEndpoint greetingEndPoint()
+		{
+			return new DefaultServiceEndpoint(GreetingsService.class, embeddedTomactServer.getRootURL() );
+		}
 	}
-
 }
